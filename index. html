@@ -1,0 +1,441 @@
+
+
+<!DOCTYPE html>
+
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<meta name="theme-color" content="#091631">
+
+<title>ROYAL PUZZLE: THE LOST KINGDOM</title>
+
+<style>
+
+:root{--gold:#ffd15a;--gold2:#f29b24;--navy:#102653;--deep:#091631;--blue:#2466b5;--cream:#fff1ce;--green:#45c77a}
+
+*{box-sizing:border-box}
+
+body{margin:0;background:#07142e;color:#fff;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
+
+button{font:inherit;cursor:pointer;border:0;color:inherit}
+
+button:focus-visible{outline:3px solid #fff;outline-offset:3px}
+
+.app{max-width:520px;min-height:100vh;margin:auto;position:relative;overflow:hidden;background:linear-gradient(180deg,#65a8df 0%,#3976ad 25%,#1a4278 57%,#10234b 100%);padding-bottom:88px;box-shadow:0 0 50px #0008}
+
+.app:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.45;background:radial-gradient(circle at 12% 12%,#fff 0 1px,transparent 2px),radial-gradient(circle at 82% 20%,#fff 0 1px,transparent 2px),radial-gradient(circle at 60% 65%,#fff 0 1px,transparent 2px)}
+
+.topbar{position:sticky;top:0;z-index:8;display:flex;align-items:center;justify-content:space-between;padding:12px 11px;background:linear-gradient(90deg,#102c5ef5,#174986f5);border-bottom:3px solid #f8c34e;box-shadow:0 4px 12px #07132c77}
+
+.logo{font-weight:1000;font-size:18px;line-height:1;color:#ffe28d;text-shadow:0 2px #8e4b0d;white-space:nowrap}.sublogo{font-size:8px;letter-spacing:1.5px;color:#d7e8ff;margin-top:4px}
+
+.wallet{display:flex;gap:4px}.currency{background:#071a3b;border:1px solid #f7d77d;border-radius:11px;padding:6px 7px;font-size:11px;font-weight:950;white-space:nowrap;box-shadow:inset 0 1px #ffffff33}
+
+.screen{display:none;position:relative;z-index:1;padding:14px;animation:fade .2s ease}.screen.active{display:block}
+
+@keyframes fade{from{opacity:.3;transform:translateY(5px)}to{opacity:1;transform:none}}
+
+.hero{margin:8px 0 14px;padding:18px 14px;border:3px solid #ffe5a0;border-radius:22px;background:linear-gradient(145deg,#fff0c9,#e8a746);color:#59300b;text-align:center;box-shadow:0 7px 0 #88450f,0 12px 22px #07142b66;position:relative;overflow:hidden}
+
+.hero:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 15% 15%,#fff9,transparent 30%),linear-gradient(130deg,transparent 50%,#fff3)}.hero>*{position:relative}.hero .crown{font-size:53px;filter:drop-shadow(0 4px 2px #96500d)}.hero h1{font-size:25px;line-height:1.1;margin:3px 0 6px}.hero p{font-size:12px;font-weight:750;margin:0}
+
+.primary{background:linear-gradient(#fff09c,#f5a51d);color:#60320a;font-weight:1000;border:2px solid #fff8bd;border-radius:15px;padding:12px 20px;box-shadow:0 5px 0 #8b480e,0 7px 12px #07142b66;text-shadow:0 1px #fff8}
+
+.secondary{background:linear-gradient(#3983cb,#174783);border:2px solid #9fd1ff;border-radius:13px;padding:9px 12px;font-weight:850;box-shadow:0 4px 0 #09244d}
+
+.primary:active,.secondary:active,.navbtn:active{transform:translateY(3px);box-shadow:none}
+
+.section-title{display:flex;align-items:center;justify-content:space-between;margin:13px 2px 9px;font-weight:950;color:#fff0b5;text-shadow:0 2px #09234c}
+
+.feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.feature{border:2px solid #ffe19a;border-radius:17px;padding:12px 9px;text-align:center;background:linear-gradient(145deg,#326db2,#173b72);box-shadow:0 5px 0 #09234c}.feature .ico{font-size:32px;display:block}.feature b{display:block;font-size:14px}.feature small{color:#d5e8ff;font-size:10px}
+
+.profile{display:flex;align-items:center;gap:10px;background:#0b2550d9;border:1px solid #7fb5ed;border-radius:15px;padding:9px 12px;margin-bottom:10px}.avatar{font-size:32px;background:#f8d276;border-radius:50%;width:48px;height:48px;display:grid;place-items:center;border:2px solid white;flex-shrink:0}.xp{height:8px;background:#071631;border-radius:9px;overflow:hidden;margin-top:5px}.xp span{display:block;height:100%;width:0;background:linear-gradient(90deg,#6ce58b,#c5f56c);transition:width .25s}
+
+.bottomnav{position:fixed;z-index:9;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);display:grid;grid-template-columns:repeat(5,1fr);background:linear-gradient(#173e78,#091a3a);border-top:2px solid #eab84b;padding:7px 4px max(8px,env(safe-area-inset-bottom));box-shadow:0 -5px 20px #0006}.navbtn{background:transparent;color:#b9d4f3;font-size:10px;font-weight:800;padding:3px 1px}.navbtn span{display:block;font-size:22px;margin-bottom:1px}.navbtn.active{color:#ffe18a;text-shadow:0 0 9px #ffd15a}
+
+.maphead{text-align:center;font-weight:950;font-size:20px;color:#fff0b0;text-shadow:0 3px #16315d;margin:5px 0 12px}.worldtag{display:inline-block;background:#102d5b;border:1px solid #f9d77e;border-radius:20px;padding:5px 13px;font-size:11px;margin:3px}
+
+.levelmap{background:linear-gradient(180deg,#6ebc87,#327e68 55%,#245b59);border:4px solid #f4c65b;border-radius:20px;padding:16px 8px;min-height:450px;position:relative;overflow:hidden}.levelmap:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 20% 20%,#b6ef9b77,transparent 35%),radial-gradient(ellipse at 80% 70%,#b6ef9b66,transparent 35%)}.levels{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:16px 6px}.levelnode{justify-self:center;width:62px;height:62px;border-radius:50%;border:4px solid #fff0a1;background:linear-gradient(#ffdf70,#e98d20);color:#60330b;font-weight:1000;font-size:19px;box-shadow:0 5px 0 #89430e,0 7px 10px #0c2b35aa;display:flex;align-items:center;justify-content:center;flex-direction:column}.levelnode small{font-size:10px}.levelnode.locked{background:linear-gradient(#9aa9b9,#53677e);border-color:#d6e1ef;color:#34465c;box-shadow:0 5px 0 #30465b}.levelnode.current{outline:4px solid #fff;animation:pulse 1.4s infinite}@keyframes pulse{50%{filter:brightness(1.3);transform:scale(1.05)}}
+
+.game-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.gamehud{display:flex;justify-content:space-between;gap:6px;margin:3px 0 10px}.hudbox{flex:1;text-align:center;background:#102955;border:2px solid #f2ca69;border-radius:12px;padding:7px 2px;font-weight:900;font-size:11px}.hudbox span{font-size:15px;color:#ffe18a}
+
+.gameboard-wrap{padding:5px;background:linear-gradient(145deg,#ffe17b,#b76b17);border:3px solid #fff0aa;border-radius:17px;box-shadow:0 7px 0 #68360e}.gameboard{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;background:#10234a;border-radius:10px;padding:5px;touch-action:manipulation}
+
+.tile{aspect-ratio:1;min-width:0;display:grid;place-items:center;border-radius:7px;font-size:clamp(17px,5.3vw,27px);background:linear-gradient(145deg,#456ba1,#1a315d);border:1px solid #ffffff44;box-shadow:inset 0 2px 3px #ffffff33,0 2px #07142e;user-select:none;padding:0;transition:transform .12s,filter .12s}.tile.sel{outline:3px solid #fff49b;transform:scale(1.06);filter:brightness(1.35)}.tile.rock{background:linear-gradient(145deg,#b7c3d2,#586b83)}.tile.blank{background:#0a1732;box-shadow:none;border-color:#ffffff12}
+
+.game-actions{display:flex;gap:7px;margin-top:11px}.game-actions button{flex:1;padding:10px 2px;font-size:12px}
+
+.cardlist{display:grid;gap:9px}.task{display:flex;align-items:center;gap:10px;background:#102b58ef;border:1px solid #8bb8e6;border-radius:14px;padding:11px}.task .big{font-size:28px}.task .desc{flex:1;font-size:12px}.task b{display:block;font-size:14px}.reward{color:#ffe18b;font-weight:950}
+
+.shopgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.shopitem{background:linear-gradient(145deg,#2f69a8,#102a56);border:2px solid #e9c66d;border-radius:16px;padding:13px 8px;text-align:center}.shopitem .big{font-size:35px}.shopitem b{display:block}.shopitem small{display:block;color:#d2e6ff;margin:4px}.shopitem button{margin-top:7px;padding:8px 12px;border-radius:10px;background:linear-gradient(#ffe58b,#e99a27);color:#63330a;font-weight:950}
+
+.modal{display:none;position:fixed;inset:0;background:#06132be8;z-index:20;align-items:center;justify-content:center;padding:18px}.modal.show{display:flex}.dialog{width:min(100%,360px);background:linear-gradient(145deg,#fff2cf,#e7ad4e);color:#57300d;border:4px solid #fff0a0;border-radius:22px;padding:22px;text-align:center;box-shadow:0 12px 35px #0009}.dialog .big{font-size:52px}.dialog h2{margin:3px 0 8px}.dialog p{font-weight:700;line-height:1.5}.dialog button{margin-top:7px}
+
+.toast{position:fixed;top:75px;left:50%;transform:translate(-50%,-20px);opacity:0;pointer-events:none;background:#071b3c;border:1px solid #ffdb77;border-radius:20px;padding:10px 18px;z-index:30;font-weight:850;transition:.2s;white-space:nowrap;max-width:92vw}.toast.show{opacity:1;transform:translate(-50%,0)}
+
+input{font:inherit} .name-input{width:100%;padding:11px;border:2px solid #d49a32;border-radius:10px;margin:8px 0;color:#2b1b08}
+
+@media(min-width:480px){.screen{padding:18px}.tile{font-size:30px}}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="topbar">
+
+ <div><div class="logo">👑 ROYAL PUZZLE</div><div class="sublogo">THE LOST KINGDOM</div></div>
+
+ <div class="wallet"><div class="currency">🪙 <span id="coins">500</span></div><div class="currency">💎 <span id="gems">25</span></div><div class="currency">❤️ <span id="lives">5</span></div></div>
+
+</header>
+
+<section id="home" class="screen active">
+
+ <div class="profile"><div class="avatar">🤴🏿</div><div style="flex:1"><b id="playername">حارس المملكة</b><div style="font-size:11px;color:#cce2ff">المستوى <span id="playerlevel">1</span> • مغامر</div><div class="xp"><span id="xpbar"></span></div></div><button class="secondary" onclick="openScreen('settings')">⚙️</button></div>
+
+ <div class="hero"><div class="crown">🏰</div><h1>أنقذ المملكة المفقودة!</h1><p>طابق الجواهر، حطّم الصخور، واجمع التيجان لإنقاذ المملكة.</p><div style="margin-top:15px"><button class="primary" id="startGameBtn" type="button">▶ ابدأ اللعب</button></div></div>
+
+ <div class="section-title"><span>✨ مغامرتك</span><span style="font-size:11px">المرحلة <b id="homelevel">1</b> / 150</span></div>
+
+ <div class="feature-grid">
+
+  <button class="feature" onclick="openScreen('map')"><span class="ico">🗺️</span><b>خريطة المراحل</b><small>استكشف العوالم</small></button>
+
+  <button class="feature" onclick="openScreen('challenges')"><span class="ico">🏆</span><b>التحديات</b><small>مهام ومكافآت</small></button>
+
+  <button class="feature" onclick="dailyReward()"><span class="ico">🎁</span><b>هدية يومية</b><small>مكافأة كل يوم</small></button>
+
+  <button class="feature" onclick="openScreen('shop')"><span class="ico">🛒</span><b>المتجر</b><small>أدوات ومساعدات</small></button>
+
+ </div>
+
+</section>
+
+<section id="map" class="screen">
+
+ <div class="maphead">🗺️ خريطة المملكة</div><div style="text-align:center;margin-bottom:12px"><span class="worldtag">🌳 المملكة الخضراء · 1–50</span><span class="worldtag">❄️ مملكة الجليد · 51–100</span><span class="worldtag">🌋 وادي التنين · 101–150</span></div>
+
+ <div class="levelmap"><div class="levels" id="levels"></div></div>
+
+</section>
+
+<section id="game" class="screen">
+
+ <div class="game-top"><button class="secondary" onclick="confirmExit()">⬅ خروج</button><b id="gameTitle">المرحلة 1</b><span>⭐ <b id="stageStars">0</b></span></div>
+
+ <div class="gamehud"><div class="hudbox">👑 التيجان<br><span id="goalCrowns">0/8</span></div><div class="hudbox">🪨 الصخور<br><span id="goalRocks">0/6</span></div><div class="hudbox">👣 الحركات<br><span id="moves">24</span></div></div>
+
+ <div class="gameboard-wrap"><div class="gameboard" id="board"></div></div>
+
+ <div class="game-actions"><button class="secondary" onclick="useHammer()">🔨 مطرقة <span id="hammerCount">2</span></button><button class="secondary" onclick="shuffleBoard()">🔀 خلط · 50</button><button class="secondary" onclick="useExtraMoves()">➕ +5 حركات</button></div>
+
+ <p style="text-align:center;font-size:11px;color:#d9eaff;line-height:1.6">اختر قطعتين متجاورتين لتبديلهما. طابق 3 قطع أو أكثر. المطابقة بجوار الصخرة تكسرها أيضاً.</p>
+
+</section>
+
+<section id="challenges" class="screen"><div class="maphead">🏆 التحديات والمهام</div><p style="text-align:center;font-size:12px;color:#d8eaff">أكمل الأهداف لتحصل على جوائز إضافية.</p><div class="cardlist" id="challengeList"></div></section>
+
+<section id="shop" class="screen"><div class="maphead">🛒 متجر المملكة</div><p style="text-align:center;font-size:12px;color:#d8eaff">استخدم العملات والجواهر لشراء الأدوات.</p><div class="shopgrid" id="shopGrid"></div></section>
+
+<section id="settings" class="screen">
+
+ <div class="maphead">⚙️ الإعدادات</div><div class="cardlist">
+
+  <div class="task"><span class="big">👤</span><div class="desc"><b>اسم اللاعب</b><small>غيّر الاسم الظاهر في اللعبة</small></div><button class="secondary" onclick="changeName()">تغيير</button></div>
+
+  <div class="task"><span class="big">🔊</span><div class="desc"><b>الصوت</b><small>تشغيل أو إيقاف مؤثرات الصوت</small></div><button class="secondary" id="soundBtn" onclick="toggleSound()">مفعل</button></div>
+
+  <div class="task"><span class="big">🌍</span><div class="desc"><b>اللغة</b><small>واجهة اللعبة الحالية: العربية</small></div><span>🇸🇩</span></div>
+
+  <div class="task"><span class="big">🔄</span><div class="desc"><b>إعادة التقدم</b><small>حذف المراحل والعملات المحفوظة</small></div><button class="secondary" onclick="resetProgress()">إعادة</button></div>
+
+ </div><p style="text-align:center;font-size:10px;color:#c6dcf7;margin-top:20px">ROYAL PUZZLE • THE LOST KINGDOM</p>
+
+</section>
+
+<nav class="bottomnav">
+
+ <button class="navbtn active" data-screen="home" onclick="openScreen('home')"><span>🏠</span>الرئيسية</button>
+
+ <button class="navbtn" data-screen="map" onclick="openScreen('map')"><span>🗺️</span>المراحل</button>
+
+ <button class="navbtn" data-screen="challenges" onclick="openScreen('challenges')"><span>🏆</span>التحديات</button>
+
+ <button class="navbtn" data-screen="shop" onclick="openScreen('shop')"><span>🛒</span>المتجر</button>
+
+ <button class="navbtn" data-screen="settings" onclick="openScreen('settings')"><span>⚙️</span>الإعدادات</button>
+
+</nav>
+
+<div class="modal" id="modal"><div class="dialog"><div class="big" id="modalIcon">🏆</div><h2 id="modalTitle">مبروك!</h2><p id="modalText">لقد أكملت المرحلة.</p><button class="primary" id="modalBtn">متابعة</button></div></div>
+
+<div class="toast" id="toast"></div>
+
+</div>
+
+<script>
+
+"use strict";
+
+const $=id=>document.getElementById(id);
+
+const defaultSave={name:"حارس المملكة",level:1,coins:500,gems:25,lives:5,xp:0,hammers:2,sound:true,daily:"",completed:[],missions:[]};
+
+let save={...defaultSave};
+
+try{const old=JSON.parse(localStorage.getItem("royalPuzzleSave"));if(old)save={...defaultSave,...old};}catch(e){}
+
+save.completed=Array.isArray(save.completed)?save.completed:[];
+
+save.missions=Array.isArray(save.missions)?save.missions:[];
+
+save.level=Math.max(1,Math.min(150,Number(save.level)||1));
+
+let board=[],selected=null,currentLevel=1,moves=24,crowns=0,rocks=0,targetCrowns=8,targetRocks=6,hammerMode=false,gameActive=false,resolveToken=0;
+
+const SIZE=8, symbols=["🔴","🔵","🟢","🟣","🟡","💎"];
+
+function saveGame(){try{localStorage.setItem("royalPuzzleSave",JSON.stringify(save));}catch(e){}updateWallet();}
+
+function updateWallet(){
+
+ $("coins").textContent=save.coins;$("gems").textContent=save.gems;$("lives").textContent=save.lives;
+
+ $("playername").textContent=save.name;$("playerlevel").textContent=Math.floor(save.xp/100)+1;
+
+ $("homelevel").textContent=save.level;$("hammerCount").textContent=save.hammers;
+
+ $("xpbar").style.width=(save.xp%100)+"%";
+
+}
+
+function toast(message){const el=$("toast");el.textContent=message;el.classList.add("show");clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.classList.remove("show"),2100);}
+
+function showModal(icon,title,message,buttonText,callback){$("modalIcon").textContent=icon;$("modalTitle").textContent=title;$("modalText").textContent=message;const btn=$("modalBtn");btn.textContent=buttonText||"متابعة";btn.onclick=()=>{$("modal").classList.remove("show");if(callback)callback();};$("modal").classList.add("show");}
+
+function openScreen(name){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));$(name).classList.add("active");document.querySelectorAll(".navbtn").forEach(b=>b.classList.toggle("active",b.dataset.screen===name));if(name==="map")renderLevels();if(name==="challenges")renderChallenges();if(name==="shop")renderShop();}
+
+function renderLevels(){const container=$("levels");container.innerHTML="";const start=Math.max(1,Math.floor((save.level-1)/30)*30+1),end=Math.min(150,start+29);for(let i=start;i<=end;i++){const btn=document.createElement("button");btn.className="levelnode";if(i>save.level)btn.classList.add("locked");if(i===save.level)btn.classList.add("current");btn.innerHTML=`${i}<small>${save.completed.includes(i)?"⭐":i>save.level?"🔒":"ابدأ"}</small>`;btn.onclick=()=>{if(i>save.level){toast("🔒 أكمل المرحلة السابقة أولاً");return;}startLevel(i);};container.appendChild(btn);}}
+
+function randomGem(){return symbols[Math.floor(Math.random()*symbols.length)];}
+
+function createBoard(){
+
+ board=Array.from({length:SIZE},()=>Array(SIZE).fill(""));
+
+ for(let r=0;r<SIZE;r++)for(let c=0;c<SIZE;c++){
+
+  if(Math.random()<.075){board[r][c]="🪨";continue;}
+
+  let choices=symbols.filter(s=>!(c>=2&&board[r][c-1]===s&&board[r][c-2]===s)&&!(r>=2&&board[r-1][c]===s&&board[r-2][c]===s));
+
+  board[r][c]=choices[Math.floor(Math.random()*choices.length)];
+
+ }
+
+ let count=board.flat().filter(x=>x==="🪨").length;
+
+ while(count<targetRocks){let r=Math.floor(Math.random()*SIZE),c=Math.floor(Math.random()*SIZE);if(board[r][c]!=="🪨"){board[r][c]="🪨";count++;}}
+
+}
+
+function startLevel(level){
+
+ if(save.lives<=0){showModal("❤️","لا توجد محاولات","لا توجد محاولات متبقية. يمكنك شراء حياة من المتجر.","فتح المتجر",()=>openScreen("shop"));return;}
+
+ currentLevel=Math.max(1,Math.min(150,level));moves=Math.max(18,26-Math.floor(currentLevel/15));
+
+ crowns=0;rocks=0;targetCrowns=7+Math.floor(currentLevel/5);targetRocks=4+Math.floor(currentLevel/8);
+
+ selected=null;hammerMode=false;gameActive=true;resolveToken++;createBoard();renderBoard();updateGameHUD();$("gameTitle").textContent="المرحلة "+currentLevel;openScreen("game");
+
+}
+
+function renderBoard(){const container=$("board");container.innerHTML="";for(let r=0;r<SIZE;r++)for(let c=0;c<SIZE;c++){const tile=document.createElement("button");const value=board[r][c];tile.className="tile"+(value==="🪨"?" rock":"")+(value===""?" blank":"")+(selected&&selected.r===r&&selected.c===c?" sel":"");tile.textContent=value;tile.setAttribute("aria-label",value==="🪨"?"صخرة":value||"فراغ");tile.onclick=()=>tapTile(r,c);container.appendChild(tile);}}
+
+function updateGameHUD(){$("moves").textContent=moves;$("goalCrowns").textContent=crowns+"/"+targetCrowns;$("goalRocks").textContent=rocks+"/"+targetRocks;$("stageStars").textContent=Math.min(3,Math.floor(crowns/Math.max(1,targetCrowns/3)));}
+
+function adjacent(a,b){return Math.abs(a.r-b.r)+Math.abs(a.c-b.c)===1;}
+
+function tapTile(r,c){
+
+ if(!gameActive)return;
+
+ if(hammerMode){if(board[r][c]==="🪨"){board[r][c]="";rocks++;save.hammers--;hammerMode=false;collapseBoard();renderBoard();updateWallet();updateGameHUD();checkProgress();}else toast("اختر صخرة لاستخدام المطرقة");return;}
+
+ if(!selected){selected={r,c};renderBoard();return;}
+
+ if(selected.r===r&&selected.c===c){selected=null;renderBoard();return;}
+
+ if(!adjacent(selected,{r,c})){selected={r,c};renderBoard();return;}
+
+ const a=selected;selected=null;[board[a.r][a.c],board[r][c]]=[board[r][c],board[a.r][a.c]];
+
+ if(!findMatches().length){[board[a.r][a.c],board[r][c]]=[board[r][c],board[a.r][a.c]];renderBoard();toast("الحركة دي ما عملت تطابق!");return;}
+
+ moves--;resolveMatches();
+
+}
+
+function findMatches(){
+
+ const found=new Set();
+
+ for(let r=0;r<SIZE;r++){let c=0;while(c<SIZE){const v=board[r][c];if(!v||v==="🪨"){c++;continue;}let e=c+1;while(e<SIZE&&board[r][e]===v)e++;if(e-c>=3)for(let k=c;k<e;k++)found.add(`${r},${k}`);c=e;}}
+
+ for(let c=0;c<SIZE;c++){let r=0;while(r<SIZE){const v=board[r][c];if(!v||v==="🪨"){r++;continue;}let e=r+1;while(e<SIZE&&board[e][c]===v)e++;if(e-r>=3)for(let k=r;k<e;k++)found.add(`${k},${c}`);r=e;}}
+
+ return [...found].map(x=>x.split(",").map(Number));
+
+}
+
+function damageAdjacentRocks(matches){const hit=new Set();for(const [r,c] of matches)for(const [dr,dc] of [[1,0],[-1,0],[0,1],[0,-1]]){const nr=r+dr,nc=c+dc;if(nr>=0&&nr<SIZE&&nc>=0&&nc<SIZE&&board[nr][nc]==="🪨")hit.add(`${nr},${nc}`);}for(const key of hit){const [r,c]=key.split(",").map(Number);board[r][c]="";rocks++;}}
+
+function collapseBoard(){
+
+ for(let c=0;c<SIZE;c++){
+
+  let end=SIZE-1;
+
+  while(end>=0){
+
+   if(board[end][c]==="🪨"){end--;continue;}
+
+   let start=end;while(start>=0&&board[start][c]!=="🪨")start--;
+
+   const gems=[];for(let r=end;r>start;r--)if(board[r][c])gems.push(board[r][c]);
+
+   let index=0;for(let r=end;r>start;r--)board[r][c]=gems[index++]||randomGem();
+
+   end=start-1;
+
+  }
+
+ }
+
+}
+
+function resolveMatches(){
+
+ const token=++resolveToken;let chain=0;
+
+ function step(){
+
+  if(token!==resolveToken||!gameActive)return;
+
+  const matches=findMatches();
+
+  if(!matches.length){renderBoard();updateGameHUD();checkProgress();return;}
+
+  chain++;damageAdjacentRocks(matches);
+
+  let crownCount=0;
+
+  for(const [r,c] of matches){if(board[r][c]==="💎")crownCount++;board[r][c]="";}
+
+  crowns+=crownCount;save.coins+=matches.length*5+Math.max(0,chain-1)*5;save.xp+=matches.length*2;
+
+  collapseBoard();updateWallet();renderBoard();updateGameHUD();
+
+  setTimeout(step,180);
+
+ }
+
+ step();
+
+}
+
+function checkProgress(){
+
+ if(!gameActive)return;
+
+ updateWallet();updateGameHUD();
+
+ if(crowns>=targetCrowns&&rocks>=targetRocks){winLevel();return;}
+
+ if(moves<=0){gameActive=false;resolveToken++;save.lives=Math.max(0,save.lives-1);saveGame();showModal("💔","انتهت الحركات",`جمعت ${crowns} من ${targetCrowns} جوهرة وكسرت ${rocks} من ${targetRocks} صخرة. حاول مرة أخرى!`,"إعادة المحاولة",()=>startLevel(currentLevel));}
+
+}
+
+function winLevel(){
+
+ if(!gameActive)return;gameActive=false;resolveToken++;
+
+ const reward=100+currentLevel*10,stars=crowns>=targetCrowns*1.7?3:crowns>=targetCrowns*1.3?2:1;
+
+ if(!save.completed.includes(currentLevel))save.completed.push(currentLevel);
+
+ save.coins+=reward;save.xp+=50;if(currentLevel>=save.level)save.level=Math.min(150,currentLevel+1);
+
+ saveGame();showModal("🏆","انتصار عظيم!",`أنقذت جزءاً من المملكة! حصلت على ${reward} قطعة ذهبية و${stars} نجوم.`,"المرحلة التالية",()=>currentLevel<150?startLevel(currentLevel+1):openScreen("home"));
+
+}
+
+function useHammer(){if(!gameActive)return;if(save.hammers<=0){toast("ما عندك مطارق كفاية. اشتري من المتجر.");return;}hammerMode=true;toast("🔨 اضغط على صخرة لتحطيمها");}
+
+function shuffleBoard(){if(!gameActive)return;if(save.coins<50){toast("تحتاج 50 قطعة ذهبية");return;}save.coins-=50;let pieces=board.flat().filter(v=>v!=="🪨");for(let i=pieces.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pieces[i],pieces[j]]=[pieces[j],pieces[i]];}let n=0;for(let r=0;r<SIZE;r++)for(let c=0;c<SIZE;c++)if(board[r][c]!=="🪨")board[r][c]=pieces[n++];saveGame();renderBoard();toast("تم خلط القطع!");}
+
+function useExtraMoves(){if(!gameActive)return;if(save.gems<5){toast("تحتاج 5 جواهر");return;}save.gems-=5;moves+=5;saveGame();updateGameHUD();toast("✨ أضفنا 5 حركات!");}
+
+function confirmExit(){showModal("🚪","الخروج من المرحلة؟","هل تريد العودة للقائمة؟ لن تُحفظ المرحلة الحالية.","نعم، خروج",()=>{gameActive=false;resolveToken++;openScreen("home");});}
+
+function renderShop(){const items=[{icon:"🔨",name:"مطرقة",desc:"تحطيم صخرة واحدة",price:100,type:"coins",action:"hammer"},{icon:"❤️",name:"حياة إضافية",desc:"استعد محاولة واحدة",price:10,type:"gems",action:"life"},{icon:"💎",name:"10 جواهر",desc:"رصيد إضافي",price:500,type:"coins",action:"gems"},{icon:"👣",name:"حركات إضافية",desc:"5 حركات (داخل المرحلة)",price:5,type:"gems",action:"moves"}];$("shopGrid").innerHTML=items.map(item=>`<div class="shopitem"><div class="big">${item.icon}</div><b>${item.name}</b><small>${item.desc}</small><small>السعر: ${item.price} ${item.type==="coins"?"🪙":"💎"}</small><button onclick="buyItem('${item.action}',${item.price},'${item.type}')">شراء</button></div>`).join("");}
+
+function buyItem(action,price,type){
+
+ if(type==="coins"&&save.coins<price){toast("عملاتك غير كافية");return;}if(type==="gems"&&save.gems<price){toast("جواهرك غير كافية");return;}
+
+ if(action==="moves"&&!gameActive){toast("ابدأ مرحلة أولاً لشراء الحركات");return;}
+
+ if(type==="coins")save.coins-=price;else save.gems-=price;
+
+ if(action==="hammer")save.hammers++;if(action==="life")save.lives=Math.min(5,save.lives+1);if(action==="gems")save.gems+=10;if(action==="moves")moves+=5;
+
+ saveGame();renderShop();updateGameHUD();toast("تم الشراء بنجاح!");
+
+}
+
+function renderChallenges(){const tasks=[{icon:"💎",name:"جامع الجواهر",desc:"أكمل 3 مراحل",reward:"50 🪙",ready:()=>save.completed.length>=3},{icon:"👑",name:"منقذ المملكة",desc:"أكمل 5 مراحل",reward:"100 🪙",ready:()=>save.completed.length>=5},{icon:"⭐",name:"بطل النجوم",desc:"أكمل مرحلتين",reward:"5 💎",ready:()=>save.completed.length>=2}];$("challengeList").innerHTML=tasks.map((t,i)=>`<div class="task"><span class="big">${t.icon}</span><div class="desc"><b>${t.name}</b><small>${t.desc} · ${t.ready()?"مكتملة":"قيد التقدم"}</small><span class="reward">المكافأة: ${t.reward}</span></div><button class="secondary" onclick="claimMission(${i})">${save.missions.includes(i)?"تم الاستلام":t.ready()?"استلام":"مقفلة"}</button></div>`).join("");}
+
+function claimMission(i){if(save.missions.includes(i)){toast("استلمت المكافأة من قبل");return;}const ready=[save.completed.length>=3,save.completed.length>=5,save.completed.length>=2];if(!ready[i]){toast("أكمل المطلوب أولاً");return;}save.missions.push(i);if(i===2)save.gems+=5;else save.coins+=i===0?50:100;saveGame();renderChallenges();toast("🎁 استلمت مكافأتك!");}
+
+function dailyReward(){const today=new Date().toDateString();if(save.daily===today){toast("استلمت هديتك اليوم بالفعل!");return;}save.daily=today;save.coins+=100;save.gems+=2;saveGame();showModal("🎁","هدية يومية","حصلت على 100 قطعة ذهبية وجوهرتين!","رائع",()=>openScreen("home"));}
+
+function changeName(){const name=prompt("اكتب اسمك الجديد:",save.name);if(name&&name.trim()){save.name=name.trim().slice(0,20);saveGame();toast("تم تغيير الاسم");}}
+
+function toggleSound(){save.sound=!save.sound;$("soundBtn").textContent=save.sound?"مفعل":"مغلق";saveGame();toast(save.sound?"تم تشغيل الصوت":"تم إيقاف الصوت");}
+
+function resetProgress(){showModal("⚠️","إعادة التقدم","هل أنت متأكد؟ سيتم حذف المراحل والعملات والمكافآت المحفوظة.","نعم، إعادة",()=>{localStorage.removeItem("royalPuzzleSave");save={...defaultSave,completed:[],missions:[]};gameActive=false;resolveToken++;updateWallet();$("soundBtn").textContent="مفعل";openScreen("home");toast("بدأت مغامرة جديدة!");});}
+
+updateWallet();renderLevels();renderChallenges();renderShop();$("soundBtn").textContent=save.sound?"مفعل":"مغلق";
+
+const startButton=$("startGameBtn");
+
+if(startButton){
+
+ startButton.addEventListener("click",function(event){
+
+  event.preventDefault();
+
+  try { startLevel(save.level); }
+
+  catch(error) { console.error("Start game error:",error); toast("حصل خطأ في تشغيل المرحلة. أعد فتح اللعبة في Safari."); }
+
+ });
+
+}
+
+</script>
+
+</body>
+
+</html>
